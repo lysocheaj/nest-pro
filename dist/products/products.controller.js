@@ -19,8 +19,8 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
-    addProduct(prodTitle, prodDesc, prodPrice) {
-        const genteratedId = this.productService.insertProduct(prodTitle, prodDesc, prodPrice);
+    async addProduct(prodTitle, prodDesc, prodPrice) {
+        const genteratedId = await this.productService.insertProduct(prodTitle, prodDesc, prodPrice);
         return { id: genteratedId };
     }
     getAllProducts() {
@@ -33,6 +33,9 @@ let ProductController = class ProductController {
         return this.productService.updateProduct(prodId, prodTitle, prodDesc, prodPrice);
         return null;
     }
+    deleteProduct(prodId) {
+        return this.productService.deletProduct(prodId);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -41,7 +44,7 @@ __decorate([
     __param(2, (0, common_1.Body)('price')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "addProduct", null);
 __decorate([
     (0, common_1.Get)(),
@@ -66,6 +69,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, Number]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "updateProduct", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "deleteProduct", null);
 ProductController = __decorate([
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [products_service_1.ProductService])
