@@ -5,13 +5,18 @@ export declare class ProductController {
     addProduct(prodTitle: string, prodDesc: string, prodPrice: number): Promise<{
         id: string;
     }>;
-    getAllProducts(): import("./product.model").Product[];
-    getProduct(prodId: string): {
+    getAllProducts(): Promise<{
         id: string;
         title: string;
         description: string;
         price: number;
-    };
-    updateProduct(prodId: string, prodTitle: string, prodDesc: string, prodPrice: number): void;
-    deleteProduct(prodId: string): void;
+    }[]>;
+    getProduct(prodId: string): Promise<{
+        id: string;
+        title: string;
+        description: string;
+        price: number;
+    }>;
+    updateProduct(prodId: string, prodTitle: string, prodDesc: string, prodPrice: number): Promise<any>;
+    deleteProduct(prodId: string): Promise<string>;
 }

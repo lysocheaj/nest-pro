@@ -29,12 +29,12 @@ let ProductController = class ProductController {
     getProduct(prodId) {
         return this.productService.getSingleProduct(prodId);
     }
-    updateProduct(prodId, prodTitle, prodDesc, prodPrice) {
-        return this.productService.updateProduct(prodId, prodTitle, prodDesc, prodPrice);
+    async updateProduct(prodId, prodTitle, prodDesc, prodPrice) {
+        await this.productService.updateProduct(prodId, prodTitle, prodDesc, prodPrice);
         return null;
     }
-    deleteProduct(prodId) {
-        return this.productService.deletProduct(prodId);
+    async deleteProduct(prodId) {
+        return await this.productService.deletProduct(prodId);
     }
 };
 __decorate([
@@ -67,14 +67,14 @@ __decorate([
     __param(3, (0, common_1.Body)('price')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "updateProduct", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "deleteProduct", null);
 ProductController = __decorate([
     (0, common_1.Controller)('products'),

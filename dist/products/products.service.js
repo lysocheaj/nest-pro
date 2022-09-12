@@ -28,19 +28,30 @@ let ProductService = class ProductService {
             price,
         });
         const result = await newProduct.save();
-        console.log(result);
+        console.log('insertProduct: ', result);
         return result.id;
     }
-    getProducts() {
-        return [...this.products];
+    async getProducts() {
+        const products = await this.productModel.find().exec();
+        return products.map((prod) => ({
+            id: prod.id,
+            title: prod.title,
+            description: prod.description,
+            price: prod.price,
+        }));
     }
-    getSingleProduct(productId) {
-        const product = this.findProduct(productId)[0];
-        return Object.assign({}, product);
+    async getSingleProduct(productId) {
+        const product = await this.findProduct(productId);
+        return {
+            id: product.id,
+            title: product.title,
+            description: product.description,
+            price: product.price,
+        };
+        ;
     }
-    updateProduct(prodId, title, desc, price) {
-        const [product, index] = this.findProduct(prodId);
-        const updatedProduct = Object.assign({}, product);
+    async updateProduct(prodId, title, desc, price) {
+        const updatedProduct = await this.findProduct(prodId);
         if (title) {
             updatedProduct.title = title;
         }
@@ -50,19 +61,28 @@ let ProductService = class ProductService {
         if (price) {
             updatedProduct.price = price;
         }
-        this.products[index] = updatedProduct;
+        return updatedProduct.save();
     }
-    deletProduct(prodId) {
-        const index = this.findProduct(prodId)[1];
-        this.products.splice(index, 1);
+    async deletProduct(prodId) {
+        const result = await this.productModel.deleteOne({ id: prodId }).exec();
+        console.log(result);
+        if (result.deletedCount === 0) {
+            throw new common_1.NotFoundException('Could not find the prodcut!');
+        }
+        return ('Deleted!');
     }
-    findProduct(id) {
-        const productIndex = this.products.findIndex((prod) => prod.id === id);
-        const product = this.products[productIndex];
-        if (productIndex < 0) {
+    async findProduct(id) {
+        let product;
+        try {
+            product = await this.productModel.findById(id);
+        }
+        catch (_a) {
             throw new common_1.NotFoundException('Could not found product!');
         }
-        return [product, productIndex];
+        if (!product) {
+            throw new common_1.NotFoundException('Could not found product!');
+        }
+        return product;
     }
 };
 ProductService = __decorate([

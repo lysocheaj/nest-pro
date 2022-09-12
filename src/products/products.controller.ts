@@ -38,13 +38,13 @@ export class ProductController {
   }
 
   @Patch(':id')
-  updateProduct(
+  async updateProduct(
     @Param('id') prodId: string,
     @Body('title') prodTitle: string,
     @Body('description') prodDesc: string,
     @Body('price') prodPrice: number,
   ) {
-    return this.productService.updateProduct(
+    await this.productService.updateProduct(
       prodId,
       prodTitle,
       prodDesc,
@@ -54,7 +54,7 @@ export class ProductController {
   }
 
   @Delete(':id')
-  deleteProduct(@Param('id') prodId: string) {
-    return this.productService.deletProduct(prodId);
+  async deleteProduct(@Param('id') prodId: string) {
+    return await this.productService.deletProduct(prodId);
   }
 }
