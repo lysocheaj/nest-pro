@@ -14,4 +14,5 @@ export interface Product extends mongoose.Document  {
   title: string;
   description: string;
   price: number;
+  test: string;
 }
